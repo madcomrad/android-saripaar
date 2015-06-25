@@ -28,6 +28,7 @@ import android.content.Context;
  */
 public abstract class Rule<VALIDATABLE> {
     protected final int mSequence;
+    protected final boolean mIsUltimate;
 
     /**
      * Constructor.
@@ -35,9 +36,14 @@ public abstract class Rule<VALIDATABLE> {
      * @param sequence  The sequence number for this {@link com.mobsandgeeks.saripaar.Rule}.
      */
     protected Rule(final int sequence) {
-        mSequence = sequence;
+        this(sequence, false);
     }
 
+
+    protected Rule(final int sequence, final boolean ultimate) {
+        mSequence = sequence;
+        mIsUltimate = ultimate;
+    }
     /**
      * Checks if the rule is valid.
      *
@@ -65,5 +71,14 @@ public abstract class Rule<VALIDATABLE> {
      */
     public final int getSequence() {
         return mSequence;
+    }
+
+    /**
+     * Returns the ultimateness of the {@link com.mobsandgeeks.saripaar.Rule}.
+     *
+     * @return The ultimateness.
+     */
+    public final boolean isUltimate() {
+        return mIsUltimate;
     }
 }

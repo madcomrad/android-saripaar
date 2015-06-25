@@ -44,8 +44,10 @@ public abstract class AnnotationRule<RULE_ANNOTATION extends Annotation, DATA_TY
      *      this rule is paired.
      */
     protected AnnotationRule(final RULE_ANNOTATION ruleAnnotation) {
-        super(ruleAnnotation != null
-                ? Reflector.getAttributeValue(ruleAnnotation, "sequence", Integer.TYPE) : -1);
+        super(ruleAnnotation != null ?
+                Reflector.getAttributeValue(ruleAnnotation, "sequence", Integer.TYPE) : -1,
+                ruleAnnotation != null ?
+                        Reflector.getAttributeValue(ruleAnnotation, "ultimate", Boolean.TYPE) : false);
         if (ruleAnnotation == null) {
             throw new IllegalArgumentException("'ruleAnnotation' cannot be null.");
         }

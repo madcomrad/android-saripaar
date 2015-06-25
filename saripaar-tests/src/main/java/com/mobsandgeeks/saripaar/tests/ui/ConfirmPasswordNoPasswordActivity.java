@@ -60,7 +60,7 @@ public class ConfirmPasswordNoPasswordActivity extends Activity
     @Override
     public void onClick(View v) {
         try {
-            mValidator.validate();
+//            mValidator.validate();
         } catch (IllegalStateException e) {
             mResultTextView.setText(R.string.crash);
         }

@@ -34,4 +34,5 @@ public @interface Email {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Invalid email";
+    boolean ultimate() default false;
 }
