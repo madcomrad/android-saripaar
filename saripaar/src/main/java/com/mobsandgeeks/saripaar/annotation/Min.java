@@ -34,4 +34,5 @@ public @interface Min {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Should be greater than min value";
+    public int flags()          default 0;
 }

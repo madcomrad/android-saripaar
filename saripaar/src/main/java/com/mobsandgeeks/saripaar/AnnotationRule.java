@@ -36,6 +36,8 @@ public abstract class AnnotationRule<RULE_ANNOTATION extends Annotation, DATA_TY
 
     protected final RULE_ANNOTATION mRuleAnnotation;
 
+    private String mMessage;
+
     /**
      * Constructor. It is mandatory that all subclasses MUST have a constructor with the same
      * signature.
@@ -47,7 +49,7 @@ public abstract class AnnotationRule<RULE_ANNOTATION extends Annotation, DATA_TY
         super(ruleAnnotation != null ?
                 Reflector.getAttributeValue(ruleAnnotation, "sequence", Integer.TYPE) : -1,
                 ruleAnnotation != null ?
-                        Reflector.getAttributeValue(ruleAnnotation, "ultimate", Boolean.TYPE) : false);
+                        Reflector.getAttributeValue(ruleAnnotation, "flags", Integer.TYPE) : 0);
         if (ruleAnnotation == null) {
             throw new IllegalArgumentException("'ruleAnnotation' cannot be null.");
         }
@@ -59,11 +61,25 @@ public abstract class AnnotationRule<RULE_ANNOTATION extends Annotation, DATA_TY
      */
     @Override
     public String getMessage(final Context context) {
+        if (mMessage != null) {
+            return mMessage;
+        }
+
         final int messageResId = Reflector.getAttributeValue(mRuleAnnotation, "messageResId",
                 Integer.class);
 
         return messageResId != -1
                 ? context.getString(messageResId)
                 : Reflector.getAttributeValue(mRuleAnnotation, "message", String.class);
+    }
+
+    @Override
+    public void setMessage(String message) {
+        mMessage = message;
+    }
+
+    @Override
+    public int getErrorCode() {
+        return Reflector.getAttributeValue(mRuleAnnotation, "errorCode", Integer.class);
     }
 }

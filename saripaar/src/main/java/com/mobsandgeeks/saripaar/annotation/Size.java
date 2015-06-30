@@ -36,4 +36,7 @@ public @interface Size {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Invalid length";
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

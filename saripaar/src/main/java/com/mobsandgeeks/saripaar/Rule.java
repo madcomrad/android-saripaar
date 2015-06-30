@@ -27,8 +27,12 @@ import android.content.Context;
  * @since 1.0
  */
 public abstract class Rule<VALIDATABLE> {
+
+    public static final int FLAG_ULTIMATE = 1;
+    public static final int FLAG_FOCUS_LOST = 3;
+
     protected final int mSequence;
-    protected final boolean mIsUltimate;
+    protected final int mFlags;
 
     /**
      * Constructor.
@@ -36,13 +40,13 @@ public abstract class Rule<VALIDATABLE> {
      * @param sequence  The sequence number for this {@link com.mobsandgeeks.saripaar.Rule}.
      */
     protected Rule(final int sequence) {
-        this(sequence, false);
+        this(sequence, 0);
     }
 
 
-    protected Rule(final int sequence, final boolean ultimate) {
+    protected Rule(final int sequence, final int flags) {
         mSequence = sequence;
-        mIsUltimate = ultimate;
+        mFlags = flags;
     }
     /**
      * Checks if the rule is valid.
@@ -79,6 +83,16 @@ public abstract class Rule<VALIDATABLE> {
      * @return The ultimateness.
      */
     public final boolean isUltimate() {
-        return mIsUltimate;
+        return (mFlags & FLAG_ULTIMATE) != 0;
+    }
+
+    public final boolean isValidateOnFocusLost() {
+        return (mFlags & FLAG_FOCUS_LOST) != 0;
+    }
+
+    public abstract int getErrorCode();
+
+    public void setMessage(String message) {
+        
     }
 }

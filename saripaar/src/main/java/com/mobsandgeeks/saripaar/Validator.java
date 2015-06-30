@@ -138,6 +138,7 @@ public class Validator {
     private Handler mViewValidatedActionHandler;
     private ValidationListener mValidationListener;
     private AsyncValidationTask mAsyncValidationTask;
+    private View mTargetView;
 
     /**
      * Constructor.
@@ -270,7 +271,14 @@ public class Validator {
      * {@link com.mobsandgeeks.saripaar.annotation.Order} annotation.
      */
     public void validate(boolean ultimate) {
+        setValidationMode(ultimate ? Mode.BURST : Mode.IMMEDIATE);
         validate(false, ultimate);
+    }
+
+    public void validateOnly(View view) {
+        mTargetView = view;
+        validate(true);
+        mTargetView = null;
     }
 
     /**
@@ -671,7 +679,7 @@ public class Validator {
         final List<ValidationError> validationErrors = validationReport.errors;
 
         if (validationErrors.size() == 0 && !validationReport.hasMoreErrors) {
-            mValidationListener.onValidationSucceeded(ultimate);
+            mValidationListener.onValidationSucceeded(mTargetView != null ? false : ultimate);
         } else {
             mValidationListener.onValidationFailed(validationErrors, ultimate);
         }
@@ -709,7 +717,7 @@ public class Validator {
             for (int i = 0; i < nRules; i++) {
 
                 // Validate only views that are visible and enabled
-                if (view.isShown() && view.isEnabled() && !(!view.isFocused() && !ultimate)) {
+                if (view.isShown() && view.isEnabled() && (view.isFocused() || ultimate || view == mTargetView)) {
                     Pair<Rule, ViewDataAdapter> ruleAdapterPair = ruleAdapterPairs.get(i);
                     Rule failedRule = validateViewWithRule(view, ruleAdapterPair.first, ruleAdapterPair.second, ultimate);
                     boolean isLastRuleForView = nRules == i + 1;
@@ -750,6 +758,9 @@ public class Validator {
 
     private Rule validateViewWithRule(final View view, final Rule rule,
                                       final ViewDataAdapter dataAdapter, boolean ultimate) {
+        if (mTargetView != null && (view != mTargetView || !rule.isValidateOnFocusLost())) {
+            return null;
+        }
 
         boolean valid = false;
         if (rule instanceof AnnotationRule) {

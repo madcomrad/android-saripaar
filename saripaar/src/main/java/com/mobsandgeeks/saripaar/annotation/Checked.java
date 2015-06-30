@@ -34,4 +34,7 @@ public @interface Checked {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Must be checked";
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

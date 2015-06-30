@@ -35,4 +35,7 @@ public @interface Pattern {
     public int sequence()           default -1;
     public int messageResId()       default -1;
     public String message()         default "Input does not match pattern";
+
+    public int flags()              default 0;
+    public int errorCode()          default -1;
 }
