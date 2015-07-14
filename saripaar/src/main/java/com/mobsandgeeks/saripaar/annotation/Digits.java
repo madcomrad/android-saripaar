@@ -32,4 +32,8 @@ public @interface Digits {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Should be a digit";
+
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

@@ -95,6 +95,10 @@ public class CreditCardValidator implements Serializable {
      * Option specifying that Diners cards are allowed.
      */
     public static final long DINERS = 1 << 4;
+    /**
+     * Option specifying that Maestro cards are allowed.
+     */
+    public static final long MAESTRO = 1 << 5;
 
     /**
      * The CreditCardTypes that are allowed to pass validation.
@@ -124,11 +128,14 @@ public class CreditCardValidator implements Serializable {
     /** Visa Card Validator */
     public static final CodeValidator VISA_VALIDATOR = new CodeValidator("^(4)(\\d{12}|\\d{15})$", LUHN_VALIDATOR);
 
+    /** Maestro Card Validator */
+    public static final CodeValidator MAESTRO_VALIDATOR = new CodeValidator("^((5[06-9])|(6[0-9]))\\d{10,17}$", LUHN_VALIDATOR);
+
     /**
      * Create a new CreditCardValidator with default options.
      */
     public CreditCardValidator() {
-        this(AMEX + VISA + MASTERCARD + DISCOVER);
+        this(AMEX + VISA + MASTERCARD + DISCOVER + DINERS + MAESTRO);
     }
 
     /**
@@ -158,6 +165,10 @@ public class CreditCardValidator implements Serializable {
 
         if (isOn(options, DINERS)) {
             this.cardTypes.add(DINERS_VALIDATOR);
+        }
+
+        if (isOn(options, MAESTRO)) {
+            this.cardTypes.add(MAESTRO_VALIDATOR);
         }
     }
 

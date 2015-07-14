@@ -32,6 +32,7 @@ public @interface Size {
     public int min()            default Integer.MIN_VALUE;
     public int max()            default Integer.MAX_VALUE;
     public boolean trim()       default false;
+    public String filter()      default "";
 
     public int sequence()       default -1;
     public int messageResId()   default -1;

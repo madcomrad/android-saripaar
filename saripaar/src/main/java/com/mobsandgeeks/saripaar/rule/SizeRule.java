@@ -14,7 +14,10 @@
 
 package com.mobsandgeeks.saripaar.rule;
 
+import android.widget.EditText;
+
 import com.mobsandgeeks.saripaar.AnnotationRule;
+import com.mobsandgeeks.saripaar.QuickRule;
 import com.mobsandgeeks.saripaar.annotation.Size;
 
 /**
@@ -34,12 +37,20 @@ public class SizeRule extends AnnotationRule<Size, String> {
         }
         int ruleMin = mRuleAnnotation.min();
         int ruleMax = mRuleAnnotation.max();
+        String filter = mRuleAnnotation.filter();
 
         // Assert min is <= max
         assertMinMax(ruleMin, ruleMax);
 
-        // Trim?
-        int length = mRuleAnnotation.trim() ? text.trim().length() : text.length();
+        int length;
+
+        // Filter and/or trim?
+        if (filter.length() != 0) {
+            String regex = "[^" + filter + "]";
+             length = mRuleAnnotation.trim() ? text.trim().replaceAll(regex, "").length() : text.replaceAll(regex, "").length();
+        } else {
+            length = mRuleAnnotation.trim() ? text.trim().length() : text.length();
+        }
 
         // Check for min length
         boolean minIsValid = true;
@@ -61,6 +72,19 @@ public class SizeRule extends AnnotationRule<Size, String> {
             String message = String.format(
                     "'min' (%d) should be less than or equal to 'max' (%d).", min, max);
             throw new IllegalStateException(message);
+        }
+    }
+
+    private static class Ruler extends QuickRule<EditText> {
+
+        @Override
+        public boolean isValid(EditText view) {
+            return false;
+        }
+
+        @Override
+        public int getErrorCode() {
+            return 0;
         }
     }
 }

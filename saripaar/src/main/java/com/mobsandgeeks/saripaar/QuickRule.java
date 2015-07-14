@@ -14,6 +14,7 @@
 
 package com.mobsandgeeks.saripaar;
 
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -58,4 +59,9 @@ public abstract class QuickRule<VIEW extends View> extends Rule<VIEW> {
      * @return true if valid, false otherwise.
      */
     public abstract boolean isValid(VIEW view);
+
+    @Override
+    public String getMessage(Context context) {
+        return mMessage;
+    }
 }

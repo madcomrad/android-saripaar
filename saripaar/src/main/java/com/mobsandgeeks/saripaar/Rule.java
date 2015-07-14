@@ -33,6 +33,7 @@ public abstract class Rule<VALIDATABLE> {
 
     protected final int mSequence;
     protected final int mFlags;
+    protected String mMessage;
 
     /**
      * Constructor.
@@ -93,6 +94,6 @@ public abstract class Rule<VALIDATABLE> {
     public abstract int getErrorCode();
 
     public void setMessage(String message) {
-        
+        mMessage = message;
     }
 }

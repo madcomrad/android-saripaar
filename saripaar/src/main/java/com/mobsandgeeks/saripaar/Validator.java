@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -715,9 +716,8 @@ public class Validator {
             // Validate all the rules for the given view.
             List<Rule> failedRules = null;
             for (int i = 0; i < nRules; i++) {
-
                 // Validate only views that are visible and enabled
-                if (view.isShown() && view.isEnabled() && (view.isFocused() || ultimate || view == mTargetView)) {
+                if (shouldValidate(view, ultimate)) {
                     Pair<Rule, ViewDataAdapter> ruleAdapterPair = ruleAdapterPairs.get(i);
                     Rule failedRule = validateViewWithRule(view, ruleAdapterPair.first, ruleAdapterPair.second, ultimate);
                     boolean isLastRuleForView = nRules == i + 1;
@@ -754,6 +754,11 @@ public class Validator {
         }
 
         return new ValidationReport(validationErrors, hasMoreErrors);
+    }
+
+    private boolean shouldValidate(View view, boolean ultimate) {
+        boolean focused = view instanceof ViewGroup ? ((ViewGroup) view).getFocusedChild() != null : view.isFocused();
+        return view.isShown() && view.isEnabled() && (focused || ultimate || view == mTargetView);
     }
 
     private Rule validateViewWithRule(final View view, final Rule rule,

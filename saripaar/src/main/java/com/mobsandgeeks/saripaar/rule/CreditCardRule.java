@@ -36,6 +36,7 @@ public class CreditCardRule extends AnnotationRule<CreditCard, String> {
                 put(CreditCard.Type.DISCOVER, CreditCardValidator.DISCOVER);
                 put(CreditCard.Type.MASTERCARD, CreditCardValidator.MASTERCARD);
                 put(CreditCard.Type.VISA, CreditCardValidator.VISA);
+                put(CreditCard.Type.MAESTRO, CreditCardValidator.MAESTRO);
             }};
 
     protected CreditCardRule(final CreditCard creditCard) {

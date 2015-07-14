@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
 public @interface CreditCard {
     public Type[] cardTypes() default {
         Type.AMEX, Type.DINERS, Type.DISCOVER,
-        Type.MASTERCARD, Type.VISA,
+        Type.MASTERCARD, Type.VISA, Type.MAESTRO
     };
 
     public int sequence()       default -1;
@@ -39,6 +39,9 @@ public @interface CreditCard {
     public String message()     default "Invalid card";
 
     public enum Type {
-        AMEX, DINERS, DISCOVER, MASTERCARD, VISA, NONE
+        AMEX, DINERS, DISCOVER, MASTERCARD, VISA, MAESTRO, NONE
     }
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

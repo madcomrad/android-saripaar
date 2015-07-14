@@ -21,8 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     @Order(1)
-    @Min(value = 2)
-    @Max(value = 100, flags = Rule.FLAG_FOCUS_LOST)
+    @Pattern(regex = "^[А-яЁё]+(([\\s-][А-яЁё]+)*)$")
     EditText text1;
 
     @Order(2)

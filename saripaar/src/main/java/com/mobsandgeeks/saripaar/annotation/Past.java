@@ -32,4 +32,7 @@ public @interface Past {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Date should be in past";
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

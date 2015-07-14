@@ -41,4 +41,7 @@ public @interface Password {
         NUMERIC, ALPHA_NUMERIC, ALPHA_NUMERIC_MIXED_CASE,
         ALPHA_NUMERIC_SYMBOLS, ALPHA_NUMERIC_MIXED_CASE_SYMBOLS
     }
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

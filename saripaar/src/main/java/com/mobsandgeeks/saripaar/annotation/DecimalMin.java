@@ -34,4 +34,7 @@ public @interface DecimalMin {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Should be less than min value";
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

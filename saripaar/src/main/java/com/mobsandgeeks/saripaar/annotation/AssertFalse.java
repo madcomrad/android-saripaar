@@ -32,4 +32,7 @@ public @interface AssertFalse {
     public int sequence()       default -1;
     public int messageResId()   default -1;
     public String message()     default "Should be false";
+
+    public int flags()          default 0;
+    public int errorCode()      default -1;
 }

@@ -36,8 +36,6 @@ public abstract class AnnotationRule<RULE_ANNOTATION extends Annotation, DATA_TY
 
     protected final RULE_ANNOTATION mRuleAnnotation;
 
-    private String mMessage;
-
     /**
      * Constructor. It is mandatory that all subclasses MUST have a constructor with the same
      * signature.
@@ -71,11 +69,6 @@ public abstract class AnnotationRule<RULE_ANNOTATION extends Annotation, DATA_TY
         return messageResId != -1
                 ? context.getString(messageResId)
                 : Reflector.getAttributeValue(mRuleAnnotation, "message", String.class);
-    }
-
-    @Override
-    public void setMessage(String message) {
-        mMessage = message;
     }
 
     @Override
