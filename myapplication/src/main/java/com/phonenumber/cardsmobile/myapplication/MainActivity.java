@@ -14,21 +14,28 @@ import android.widget.Toast;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.adapter.ViewDataAdapter;
 import com.mobsandgeeks.saripaar.annotation.*;
+import com.mobsandgeeks.saripaar.exception.ConversionException;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Validator.ValidationListener {
 
-    @Order(1)
-    @Pattern(regex = "^[А-яЁё]+(([\\s-][А-яЁё]+)*)$")
+//    @Order(1)
+//    @Pattern(regex = "^[А-яЁё]+(([\\s-][А-яЁё]+)*)$")
     EditText text1;
 
-    @Order(2)
-    @Min(value = 2)
+//    @Order(2)
+//    @Min(value = 2)
     EditText text2;
 
+    @Order(1)
+    @Future(strict = false, precision = Future.Precision.MONTH, offset = 1, flags = Rule.FLAG_ULTIMATE)
     EditText text3;
+
     Button button;
     Validator mValidator;
 
@@ -71,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
         text1.addTextChangedListener(mTextWatchertWacher);
         text2.addTextChangedListener(mTextWatchertWacher);
         text3.addTextChangedListener(mTextWatchertWacher);
+
+        text3.setTag("Text 2");
         button = (Button) findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +87,19 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
             public void onClick(View v) {
 
                 mValidator.validate(true);
+            }
+        });
+
+        Validator.registerAnnotation(Future.class, EditText.class, new ViewDataAdapter<EditText, Date>() {
+            @Override
+            public Date getData(EditText view) throws ConversionException {
+                String formattedDateString = view.getText().toString();
+                String dateString = formattedDateString.replaceAll("[^\\d]", "");
+
+                int month = Integer.parseInt(dateString.substring(0, 2));
+                int year = Integer.parseInt(dateString.substring(2)) + 2000;
+
+                return new GregorianCalendar(year, month, 1).getTime();
             }
         });
 

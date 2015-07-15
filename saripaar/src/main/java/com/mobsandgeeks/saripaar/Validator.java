@@ -767,6 +767,10 @@ public class Validator {
             return null;
         }
 
+        if (!ultimate && rule.isUltimate()) {
+            return null;
+        }
+
         boolean valid = false;
         if (rule instanceof AnnotationRule) {
             Object data;
@@ -774,21 +778,13 @@ public class Validator {
             try {
                 data = dataAdapter.getData(view);
 
-                if (ultimate) {
-                    valid = rule.isValid(data);
-                } else {
-                    valid = rule.isUltimate() || rule.isValid(data);
-                }
+                valid = rule.isValid(data);
             } catch (ConversionException e) {
                 valid = false;
                 e.printStackTrace();
             }
         } else if (rule instanceof QuickRule) {
-            if (ultimate) {
-                valid = rule.isValid(view);
-            } else {
-                valid = rule.isUltimate() || rule.isValid(view);
-            }
+            valid = rule.isValid(view);
         }
 
         return valid ? null : rule;

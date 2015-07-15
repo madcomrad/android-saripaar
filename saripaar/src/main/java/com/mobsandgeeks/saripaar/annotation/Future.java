@@ -29,10 +29,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Future {
-    public int sequence()       default -1;
-    public int messageResId()   default -1;
-    public String message()     default "Date should be in future";
+    public int sequence()        default -1;
+    public int messageResId()    default -1;
+    public String message()      default "Date should be in future";
 
-    public int flags()          default 0;
-    public int errorCode()      default -1;
+    public Precision precision() default Precision.YEAR;
+    public int offset()          default 0;
+    public boolean strict()      default true;
+    public int flags()           default 0;
+    public int errorCode()       default -1;
+
+    public enum Precision {
+        DAY, MONTH, YEAR;
+    }
 }
